@@ -70,6 +70,9 @@ class Browser(Cookies):
         ## execute script and return output 
         return self.driver.execute_script(jsCode)
 
+    def infinite_scroll(self):
+        self.exec_js('setInterval(()=>{ window.scrollBy(0, 500) }, 500)')
+
     def get(self, link, with_cookies=False):
         self.driver.get(link)
         if with_cookies:
@@ -127,6 +130,10 @@ class Scraper(Cookies):
             f.write(data)
             f.close()
 
+    def html_soup(self):
+        if self.src:
+            return BeautifulSoup(self.src, 'html.parser')
+        return BeautifulSoup('', 'html.parser')
 
 
 
