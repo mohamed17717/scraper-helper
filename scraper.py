@@ -41,10 +41,10 @@ class Browser(Cookies):
         this is functions uses alot
     '''
     def __init__(self, hide=False):
-        self.config_browser(hide)
+        self.__config_browser__(hide)
         print('browser has configured')
 
-    def config_browser(self, hide):
+    def __config_browser__(self, hide):
         options = Options()
 
         options.set_headless(headless=hide)
@@ -63,15 +63,28 @@ class Browser(Cookies):
 
     def set_cookies(self, cookies):
         for cookie in cookies:
-            print(cookie)
+            # print(cookie)
             self.driver.add_cookie(cookie)
 
-    def exec_js(self, jsCode):
-        ## execute script and return output 
-        return self.driver.execute_script(jsCode)
+    def exec_js(self, jsCode, returnVar=''):
+        """ 
+            put "done();" whenever you want stop if your code need to wait 
+            returnVar is variable you want its value
+        """
+        index = jsCode.find('done();')
+        if index >= 0:
+            jsCode = returnVar and jsCode.replace('done();', 'done(%s);' % returnVar) or jsCode
+            jsCode = 'var done = arguments[0]; %s' % jsCode
+
+            func = self.driver.execute_async_script
+        else:
+            jsCode = jsCode.rstrip(';') + '; return %s;' % returnVar 
+            func = self.driver.execute_script            
+        return func(jsCode)
+
 
     def infinite_scroll(self):
-        self.exec_js('setInterval(()=>{ window.scrollBy(0, 500) }, 500)')
+        self.exec_js('var intrvl = setInterval(()=>{ window.scrollBy(0, 500) }, 500)', returnVar='intrvl')
 
     def get(self, link, with_cookies=False):
         self.driver.get(link)
