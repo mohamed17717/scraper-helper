@@ -51,6 +51,7 @@ class Browser(Cookies):
 
         self.driver = webdriver.Firefox(firefox_options=options)
         self.driver.implicitly_wait(20)
+        self.driver.set_script_timeout(1000)
         print('browser has opened')
 
     def fill_input(self, selector, value):
@@ -74,7 +75,7 @@ class Browser(Cookies):
         index = jsCode.find('done();')
         if index >= 0:
             jsCode = returnVar and jsCode.replace('done();', 'done(%s);' % returnVar) or jsCode
-            jsCode = 'var done = arguments[0]; %s' % jsCode
+            jsCode = 'var done = arguments[0]; ' + jsCode
 
             func = self.driver.execute_async_script
         else:
@@ -92,7 +93,9 @@ class Browser(Cookies):
             ## .removeProtocol.removePath.removeSubDomain
             domain = '.'.join(link.split('//')[-1].split('/', 1)[0].split('.')[-2:])
             cookies = self.get_cookies('firefox', domain )
+            sleep(2)
             self.set_cookies(cookies)
+            sleep(2)
             self.driver.get(link)
 
     def page_src(self):
