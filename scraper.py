@@ -10,6 +10,14 @@ from re import findall
 from bs4 import BeautifulSoup
 import browser_cookie3
 
+## start helper functions
+from random import choice
+from string import ascii_letters, digits
+def randName(length = 20):
+    symbol_range = ascii_letters + digits
+    return ''.join( [ choice(symbol_range) for i in range(length) ] )
+## end helper functions
+
 class Cookies:
     def get_cookies(self, browser, website):
         """ 
@@ -135,7 +143,7 @@ class Scraper(Cookies):
         find = findall(ptrn, self.src)
         return find
 
-    def download(self, link, location):
+    def download(self, link, location='./'+randName()):
         with open(location, 'wb') as f:
             res = requests.get(link)
             f.write(res.content)
@@ -150,6 +158,4 @@ class Scraper(Cookies):
         if self.src:
             return BeautifulSoup(self.src, 'html.parser')
         return BeautifulSoup('', 'html.parser')
-
-
 
