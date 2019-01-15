@@ -133,6 +133,11 @@ class Scraper(Cookies):
         self.src = response.text
         return response
 
+    def post(self, link, data= {}):
+        response = self.session.post(link, data = data)
+        self.src = response.text
+        return response
+
     def regex(self, ptrn):
         ptrns = {
             'ilink': r'(href|src)="(/[^"\s]+)"*?',
