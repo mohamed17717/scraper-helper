@@ -52,6 +52,7 @@ class Browser(Cookies):
         self.__config_browser__(hide)
         print('browser has configured')
 
+
     def __config_browser__(self, hide):
         options = Options()
 
@@ -115,6 +116,11 @@ class Scraper(Cookies):
         this is functions uses alot
     '''
     def __init__(self):
+        ## args
+        self.soup = None
+        self.src = None
+        self.session = None
+
         self.__setup__()
 
     def __setup__(self):
@@ -148,19 +154,70 @@ class Scraper(Cookies):
         find = findall(ptrn, self.src)
         return find
 
-    def download(self, link, location='./'+randName()):
+    def download(self, link, location=None):
+        ext = link.split('/')[-1].split('?')[0].split('.')[-1]
+        ext = len(ext) == 3 and f'.{ext}' or ''
+        location = location or f'./{randName()}{ext}'
+
         with open(location, 'wb') as f:
             res = requests.get(link)
             f.write(res.content)
             f.close()
 
     def write(self, data, location):
+        encode = {'encoding': 'UTF-8', 'errors': 'ignore'}
+        data = data.encode(**encode).decode(**encode)
+
+        location = location or f'./{randName()}.txt'
+
         with open(location, 'a') as f:
             f.write(data)
             f.close()
 
     def html_soup(self):
         if self.src:
-            return BeautifulSoup(self.src, 'html.parser')
-        return BeautifulSoup('', 'html.parser')
+            self.soup = BeautifulSoup(self.src, 'html.parser')
+        self.soup = BeautifulSoup('', 'html.parser')
+
+class ExtraBeautifulSoup:
+    """docstring for ExtraBeautifulSoup"""
+    def __init__(self, soup):
+        super(ExtraBeautifulSoup, self).__init__()
+
+        self.main = soup ## main soup will never change when created instance
+        self.soup = soup ## change with functions
+
+
+    def elm_text_contain(self, selector, text):
+        elms = self.soup.select(selector) 
+        text = text.lower()
+        return list( filter( lambda elm: text in elm.text.lower(), elms) )
+
+    def elm_contain_elm(self, selectorParent, selectorChild):
+        elms = self.soup.select(selectorParent)
+        return list( filter( lambda elm: elm.select_one(selectorChild) != None , elms ) )
+
+    def elm_contain_elm_with_text(self, selectorParent, selectorChild, text):
+        elms = self.elm_contain_elm(selectorParent, selectorChild)
+        filtered = []
+        for elm in elms:
+            self.soup = elm
+            if self.elm_text_contain(selectorChild, text):
+                filtered.append(elm)
+        ## for future work
+        self.soup = self.main
+
+        return filtered
+
+    def parent_until(selectorChild, selectorParent):
+        pass
+
+    def brother_to(selector, selectorWanted):
+        pass
+
+    
+
+
+
+        
 

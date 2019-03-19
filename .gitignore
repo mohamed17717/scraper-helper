@@ -2,3 +2,6 @@
 *.log
 __*
 *-gifs
+*.save
+.gitignore
+.gitignore
