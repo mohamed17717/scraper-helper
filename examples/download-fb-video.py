@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0,'..')
+
 from scraper import *
 from urllib.parse import unquote
 url = input('Enter video url: ').replace('https://www', 'https://m')

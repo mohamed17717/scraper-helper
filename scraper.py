@@ -172,12 +172,11 @@ class Scraper(Cookies):
 
         with open(location, 'a') as f:
             f.write(data)
-            f.close()
 
     def html_soup(self):
         if self.src:
-            self.soup = BeautifulSoup(self.src, 'html.parser')
-        self.soup = BeautifulSoup('', 'html.parser')
+            return BeautifulSoup(self.src, 'html.parser')
+        return BeautifulSoup('', 'html.parser')
 
 class ExtraBeautifulSoup:
     """docstring for ExtraBeautifulSoup"""

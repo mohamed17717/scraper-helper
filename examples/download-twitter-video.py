@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0,'..')
+
 from scraper import *
 from sys import argv
 # tweet_url = 'https://twitter.com/Tezha4me/status/1014920049843372044'

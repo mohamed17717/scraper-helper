@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0,'..')
+
 from scraper import  *
 from time import sleep
 from random import choice
@@ -55,9 +58,12 @@ class FbAcc:
 		self.infoUrl   = f'{self.base}/{infoUrl}'
 
 	def getAlbums(self):
+		print('url:', self.photosUrl)
 		self.s.get(self.photosUrl)
 
 		soup = self.s.html_soup()
+		print(soup)
+		print(self.s.src)
 
 		## get albums area
 		divs = soup.select('div')
@@ -158,9 +164,11 @@ class FbAcc:
 		self.getImagesUrls()
 		self.download()
 
-import sys
-if __name__ == '__main__' and len(sys.argv) == 2:
-	## modify that link
-	userUrl  = sys.argv[1]
-	acc = FbAcc(userUrl)
-	acc.run()
+if __name__ == '__main__':
+	if len(sys.argv) == 2:
+		## modify that link
+		userUrl  = sys.argv[1]
+		acc = FbAcc(userUrl)
+		acc.run()
+	else:
+		print('you must pass correct argv')
