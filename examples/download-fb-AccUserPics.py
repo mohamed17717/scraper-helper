@@ -58,12 +58,12 @@ class FbAcc:
 		self.infoUrl   = f'{self.base}/{infoUrl}'
 
 	def getAlbums(self):
-		print('url:', self.photosUrl)
+		print('album url:', self.photosUrl)
 		self.s.get(self.photosUrl)
 
 		soup = self.s.html_soup()
-		print(soup)
-		print(self.s.src)
+		print('soup:', len(soup))
+		# print(self.s.src)
 
 		## get albums area
 		divs = soup.select('div')
@@ -78,7 +78,9 @@ class FbAcc:
 			albums = []
 
 			if len(divs) == 1:
+				print('len is one')
 				urls = divs[0].select('a[href]')
+				print('urls', urls)
 				albums.extend( [self.base + url['href'] for url in urls if url.text in self.allowedAlbums] )
 
 			elif len(divs) == 2:
@@ -101,9 +103,10 @@ class FbAcc:
 					sleep(choice([2,3,4]))
 
 			self.albums = albums
-
+			print('albums', albums)
+		
 	def __checkImgAlt__(self, img):
-		#print('start filtering images on alt')
+		print('start filtering images on alt')
 		print(img)
 		alt = img['alt']
 		whiteList = ['person', 'people']
