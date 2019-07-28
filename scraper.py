@@ -10,13 +10,16 @@ from re import findall
 from bs4 import BeautifulSoup
 import browser_cookie3
 
-## start helper functions
+import re
+from string import printable
 from random import choice
-from string import ascii_letters, digits
-def randName(length = 20):
-	symbol_range = ascii_letters + digits
-	return ''.join( [ choice(symbol_range) for i in range(length) ] )
-## end helper functions
+class String:
+	def clean_string(self, string):
+		return re.sub(r'\W', '', string)
+	
+	def random_string(self, length=20):
+		space = self.clean_string(printable)
+		return ''.join([choice(space) for i in range(length)])
 
 class Cookies:
 	def get_cookies(self, browser, website):
@@ -110,7 +113,7 @@ class Browser(Cookies):
 	def page_src(self):
 		return self.driver.page_source
 
-class Scraper(Cookies):
+class Scraper(Cookies, String):
 	'''
 		scrape using requests.session
 		this is functions uses alot
@@ -157,7 +160,7 @@ class Scraper(Cookies):
 	def download(self, link, location=None):
 		ext = link.split('/')[-1].split('?')[0].split('.')[-1]
 		ext = len(ext) == 3 and f'.{ext}' or ''
-		location = location or f'./{randName()}{ext}'
+		location = location or f'./{self.random_string()}{ext}'
 
 		with open(location, 'wb') as f:
 			res = requests.get(link)
@@ -168,7 +171,7 @@ class Scraper(Cookies):
 		encode = {'encoding': 'UTF-8', 'errors': 'ignore'}
 		data = data.encode(**encode).decode(**encode)
 
-		location = location or f'./{randName()}.txt'
+		location = location or f'./{self.random_string()}.txt'
 
 		with open(location, 'a') as f:
 			f.write(data)
