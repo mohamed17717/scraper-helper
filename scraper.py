@@ -122,7 +122,6 @@ class Scraper(Cookies, String):
 		## args
 		self.soup = None
 		self.src = None
-		self.session = None
 
 		self.__setup__()
 
