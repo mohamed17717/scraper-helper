@@ -86,12 +86,12 @@ class Browser(Cookies):
 		"""
 		index = jsCode.find('done();')
 		if index >= 0:
-			jsCode = returnVar and jsCode.replace('done();', 'done(%s);' % returnVar) or jsCode
+			jsCode = jsCode.replace('done();', f'done({returnVar});')
 			jsCode = 'var done = arguments[0]; ' + jsCode
 
 			func = self.driver.execute_async_script
 		else:
-			jsCode = jsCode.rstrip(';') + '; return %s;' % returnVar 
+			jsCode = f'{jsCode.rstrip(";")}; return {returnVar};'
 			func = self.driver.execute_script            
 		return func(jsCode)
 
@@ -215,10 +215,3 @@ class ExtraBeautifulSoup:
 
 	def brother_to(selector, selectorWanted):
 		pass
-
-	
-
-
-
-		
-
