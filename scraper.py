@@ -166,13 +166,13 @@ class Scraper(Cookies, String):
 			f.write(res.content)
 			f.close()
 
-	def write(self, data, location):
+	def write(self, data, location, append=True):
 		encode = {'encoding': 'UTF-8', 'errors': 'ignore'}
 		data = data.encode(**encode).decode(**encode)
 
 		location = location or f'./{self.random_string()}.txt'
 
-		with open(location, 'a') as f:
+		with open(location, 'a' if append else 'w') as f:
 			f.write(data)
 
 	def html_soup(self):
