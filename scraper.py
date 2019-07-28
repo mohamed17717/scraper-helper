@@ -21,6 +21,27 @@ class String:
 		space = self.clean_string(printable)
 		return ''.join([choice(space) for i in range(length)])
 
+class UrlParser:
+	def url_domain(self, url):
+		...
+	def url_host(self, url):
+		...
+	def url_protocol(self, url):
+		...
+	def url_path(self, url):
+		...
+	def url_params(self, url):
+		...
+
+	def url_parse(self, url):
+		return {
+			'domain': self.domain(url),
+			'host': self.host(url),
+			'protocol': self.protocol(url),
+			'path': self.path(url),
+			'params': self.params(url),
+		}
+
 class Cookies:
 	def get_cookies(self, browser, website):
 		""" 
