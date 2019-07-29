@@ -22,25 +22,35 @@ class String:
 		return ''.join([choice(space) for i in range(length)])
 
 class UrlParser:
-	def url_domain(self, url):
-		...
-	def url_host(self, url):
-		...
-	def url_protocol(self, url):
-		...
-	def url_path(self, url):
-		...
-	def url_params(self, url):
-		...
+	def __init__(self, url):
 
-	def url_parse(self, url):
-		return {
-			'domain': self.domain(url),
-			'host': self.host(url),
-			'protocol': self.protocol(url),
-			'path': self.path(url),
-			'params': self.params(url),
-		}
+		prorocol_link = url.split('://')
+		if len(prorocol_link) == 1:
+			prorocol_link = ['', url]
+		
+		protocol, link = prorocol_link
+		host, *path = link.split('/')
+		path = '/'.join(path)
+
+		path, query = path.split('?')
+		domain = '.'.join(host.split('.')[-2:]).split(':')[0]
+		
+		self.protocol = protocol
+		self.path = path
+		self.domain = domain
+		self.host = host
+		self.query = query
+
+		self.__get_params()
+
+	def __get_params(self):
+		params = {}
+		query = self.query.split('&')
+		for q in query:
+			name, val = q.split('=')
+			params[name] = val
+
+		self.params = params
 
 class Cookies:
 	def get_cookies(self, browser, website):
@@ -236,3 +246,12 @@ class ExtraBeautifulSoup:
 
 	def brother_to(selector, selectorWanted):
 		pass
+
+
+if __name__ == '__main__':
+	url = 'https://www.google.com:80/search?client=firefox-b-d&q=post+a+form+requests'
+	x = UrlParser(url)
+
+	print(url)
+	for k, v in x.__dict__.items():
+		print(f'{k}: {v}')
