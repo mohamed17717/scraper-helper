@@ -3,13 +3,14 @@
 import requests
 import re
 import browser_cookie3
-import time
 import random
 import string
+import time
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from bs4 import BeautifulSoup
 
@@ -258,9 +259,3 @@ class ExtraBeautifulSoup:
 
 	def brother_to(selector, selectorWanted):
 		pass
-
-if __name__ == '__main__':
-	# from scraper import Scraper
-	s = Scraper()
-	video_link = 'https://video.faly2-1.fna.fbcdn.net/v/t42.9040-2/62397431_315586462709416_146625252862984192_n.mp4?_nc_cat=102&efg=eyJ2ZW5jb2RlX3RhZyI6InN2ZV9zZCJ9&_nc_oc=AQkgWetwMBu9sezw9cSv95KrlX03X1wX_ZOaSzMxtmcfq1_Ix_tXVWefEr2Xyq_8Ka4&_nc_ht=video.faly2-1.fna&oh=4ca74f2b4d64ea2856819efa3ce4fe4f&oe=5D3E91FB'
-	s.download(link=video_link)
