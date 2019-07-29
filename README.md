@@ -93,3 +93,9 @@ b.click_btn('button[type="submit"]')
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## TODO
+
+- [ ] add proxy class
+- [ ] add traversing class - to move throw DOM easily
+- [ ] make code cleaner
