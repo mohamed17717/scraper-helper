@@ -191,7 +191,7 @@ class Scraper(Cookies, String):
 		# ext = link.split('/')[-1].split('?')[0].split('.')[-1]
 		link = UrlParser(link)
 		ext = link.path.split('.')[-1]
-		ext = len(ext) == 3 and f'.{ext}' or ''
+		ext =  f'.{ext}' if len(ext) == 3 else ''
 		location = location or f'./{self.random_string()}{ext}'
 
 		with open(location, 'wb') as f:
