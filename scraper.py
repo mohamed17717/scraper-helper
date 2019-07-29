@@ -21,6 +21,7 @@ class String:
 		space = self.clean_string(printable)
 		return ''.join([choice(space) for i in range(length)])
 
+
 class UrlParser:
 	def __init__(self, url):
 
@@ -52,6 +53,7 @@ class UrlParser:
 
 		self.params = params
 
+
 class Cookies:
 	def get_cookies(self, browser, website):
 		""" 
@@ -77,6 +79,7 @@ class Cookies:
 			cookies.append(cookie)
 		return cookies
 
+
 class Browser(Cookies):
 	'''
 		scrape using selenium firefox
@@ -85,7 +88,6 @@ class Browser(Cookies):
 	def __init__(self, hide=False):
 		self.__config_browser__(hide)
 		print('browser has configured')
-
 
 	def __config_browser__(self, hide):
 		options = Options()
@@ -126,7 +128,6 @@ class Browser(Cookies):
 			func = self.driver.execute_script            
 		return func(jsCode)
 
-
 	def infinite_scroll(self):
 		self.exec_js('var intrvl = setInterval(()=>{ window.scrollBy(0, 500) }, 500)', returnVar='intrvl')
 
@@ -144,6 +145,7 @@ class Browser(Cookies):
 
 	def page_src(self):
 		return self.driver.page_source
+
 
 class Scraper(Cookies, String):
 	'''
@@ -213,6 +215,7 @@ class Scraper(Cookies, String):
 		if self.src:
 			return BeautifulSoup(self.src, 'html.parser')
 		return BeautifulSoup('', 'html.parser')
+
 
 class ExtraBeautifulSoup:
 	"""docstring for ExtraBeautifulSoup"""
