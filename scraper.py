@@ -1,25 +1,26 @@
 #!/usr/bin/python
 
+import requests
+import re
+import browser_cookie3
+import time
+import random
+import string
+
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
-from json import loads, dumps
-from time import sleep, time
-import requests
-from re import findall
-from bs4 import BeautifulSoup
-import browser_cookie3
 
-import re
-from string import printable
-from random import choice
+from bs4 import BeautifulSoup
+
+
 class String:
 	def clean_string(self, string):
 		return re.sub(r'\W', '', string)
 	
 	def random_string(self, length=20):
-		space = self.clean_string(printable)
-		return ''.join([choice(space) for i in range(length)])
+		space = self.clean_string(string.printable)
+		return ''.join([random.choice(space) for i in range(length)])
 
 
 class UrlParser:
@@ -138,9 +139,9 @@ class Browser(Cookies):
 			# domain = '.'.join(link.split('//')[-1].split('/', 1)[0].split('.')[-2:])
 			link = UrlParser(link)
 			cookies = self.get_cookies('firefox', link.domain )
-			sleep(2)
+			time.sleep(2)
 			self.set_cookies(cookies)
-			sleep(2)
+			time.sleep(2)
 			self.driver.get(link)
 
 	def page_src(self):
@@ -187,7 +188,7 @@ class Scraper(Cookies, String):
 			'link' : r'(href|src)="((https:/)*/[^"\s]+)"',
 		}
 		ptrn = ptrns.get(ptrn) or ptrn
-		find = findall(ptrn, self.src)
+		find = re.findall(ptrn, self.src)
 		return find
 
 	def download(self, link, location=None):
