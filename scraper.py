@@ -253,11 +253,3 @@ class ExtraBeautifulSoup:
 	def brother_to(selector, selectorWanted):
 		pass
 
-
-if __name__ == '__main__':
-	url = 'https://www.google.com:80/search?client=firefox-b-d&q=post+a+form+requests'
-	x = UrlParser(url)
-
-	print(url)
-	for k, v in x.__dict__.items():
-		print(f'{k}: {v}')
