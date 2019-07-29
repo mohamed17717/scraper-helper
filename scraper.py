@@ -55,7 +55,7 @@ class UrlParser:
 
 		params = {}
 		query = query.split('&')
-		print(query)
+
 		for q in query:
 			name, val = q.split('=')
 			params[name] = val
@@ -200,17 +200,13 @@ class Scraper(Cookies, String):
 		return find
 
 	def download(self, link, location=None):
-		# ext = link.split('/')[-1].split('?')[0].split('.')[-1]
-		link = UrlParser(link)
-		# ext = link.path.split('.')[-1]
-		# ext =  f'.{ext}' if len(ext) == 3 else ''
-		# location = location or f'./{self.random_string()}{ext}'
-		location = location or link.path().strip('/').split('/')[-1]
-
+		url = UrlParser(link)
+		location = location or './' + url.path.strip('/').split('/')[-1]
+		
+		res = requests.get(link)
+		
 		with open(location, 'wb') as f:
-			res = requests.get(link)
 			f.write(res.content)
-			f.close()
 
 	def write(self, data, location, append=True):
 		encode = {'encoding': 'UTF-8', 'errors': 'ignore'}
@@ -266,5 +262,5 @@ class ExtraBeautifulSoup:
 if __name__ == '__main__':
 	# from scraper import Scraper
 	s = Scraper()
-	video_link = 'https://www.facebook.com/livingin2077/videos/2296419330686852/'
+	video_link = 'https://video.faly2-1.fna.fbcdn.net/v/t42.9040-2/62397431_315586462709416_146625252862984192_n.mp4?_nc_cat=102&efg=eyJ2ZW5jb2RlX3RhZyI6InN2ZV9zZCJ9&_nc_oc=AQkgWetwMBu9sezw9cSv95KrlX03X1wX_ZOaSzMxtmcfq1_Ix_tXVWefEr2Xyq_8Ka4&_nc_ht=video.faly2-1.fna&oh=4ca74f2b4d64ea2856819efa3ce4fe4f&oe=5D3E91FB'
 	s.download(link=video_link)
