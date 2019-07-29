@@ -188,7 +188,9 @@ class Scraper(Cookies, String):
 		return find
 
 	def download(self, link, location=None):
-		ext = link.split('/')[-1].split('?')[0].split('.')[-1]
+		# ext = link.split('/')[-1].split('?')[0].split('.')[-1]
+		link = UrlParser(link)
+		ext = link.path.split('.')[-1]
 		ext = len(ext) == 3 and f'.{ext}' or ''
 		location = location or f'./{self.random_string()}{ext}'
 
