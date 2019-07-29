@@ -34,7 +34,11 @@ class UrlParser:
 		host, *path = link.split('/')
 		path = '/'.join(path)
 
-		path, query = path.split('?')
+		path_query = path.split('?')
+		if len(path_query) == 1:
+			path_query = [path, '']
+
+		path, query = path_query
 		domain = '.'.join(host.split('.')[-2:]).split(':')[0]
 		
 		self.protocol = protocol
@@ -46,8 +50,12 @@ class UrlParser:
 		self.__get_params()
 
 	def __get_params(self):
+		query = self.query
+		if not query: return
+
 		params = {}
-		query = self.query.split('&')
+		query = query.split('&')
+		print(query)
 		for q in query:
 			name, val = q.split('=')
 			params[name] = val
@@ -255,3 +263,8 @@ class ExtraBeautifulSoup:
 	def brother_to(selector, selectorWanted):
 		pass
 
+if __name__ == '__main__':
+	# from scraper import Scraper
+	s = Scraper()
+	video_link = 'https://www.facebook.com/livingin2077/videos/2296419330686852/'
+	s.download(link=video_link)
