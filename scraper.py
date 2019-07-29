@@ -134,8 +134,9 @@ class Browser(Cookies):
 		self.driver.get(link)
 		if with_cookies:
 			## .removeProtocol.removePath.removeSubDomain
-			domain = '.'.join(link.split('//')[-1].split('/', 1)[0].split('.')[-2:])
-			cookies = self.get_cookies('firefox', domain )
+			# domain = '.'.join(link.split('//')[-1].split('/', 1)[0].split('.')[-2:])
+			link = UrlParser(link)
+			cookies = self.get_cookies('firefox', link.domain )
 			sleep(2)
 			self.set_cookies(cookies)
 			sleep(2)
